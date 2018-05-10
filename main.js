@@ -1,5 +1,5 @@
 const Player = (function() {
-    var [x, y] = [250, 500];
+    let [x, y] = [250, 500];
     var [width, height] = [5, 25];
     var [xVelocity, yVelocity] = [0, 0];
     var acceleration = 1;
@@ -32,6 +32,13 @@ const Player = (function() {
         if(yVelocity <= -maxSpeed) yVelocity = -maxSpeed;
     }
 
+    function getX() {
+        return x;
+    }
+    function getY() {
+        return y;
+    }
+
     var toRadians = (term) => term * (Math.PI / 180);
 
     function init() {
@@ -51,12 +58,12 @@ const Player = (function() {
     return {
         update: update,
         init: init,
-        x: x, y: y, width: width, height: height
+        getX: getX, getY: getY, width: width, height: height
     }
 })();
 
 const Wall = (function() {
-    var [x, y] = [245, 50];
+    let [x, y] = [245, 50];
     var [width, height] = [25, 25];
     var element = document.querySelector(".wall");
 
@@ -67,9 +74,16 @@ const Wall = (function() {
         element.style.left = x  + "px";
     }
 
+    function getX() {
+        return x;
+    }
+    function getY() {
+        return y;
+    }
+
     return {
         init: init,
-        x: x, y: y, width: width, height: height
+        getX: getX, getY: getY, width: width, height: height
     }
 })();
 
@@ -84,16 +98,18 @@ const CollisionHandler = (function() {
     var collidables = [];
 
     function colliding(entity, other) {
-        var collidingX = (entity.x < other.x + other.width && entity.x + entity.width > other.x);
+        var collidingX = (entity.getX() < other.getX() + other.width && entity.getX() + entity.width > other.getX());
+        var collidingY = (entity.getY() < other.getY() + other.width && entity.getY() + entity.width > other.getY());
         //var collidingY = (entity.y < other.y + other.height && entity.y + entity.height > other.y);
-        console.log(entity.x);
-        return (collidingX);
+        //console.log(entity.x);
+        return (collidingX && collidingY);
     }
 
     function testForCollisions() {
         for(let i = 0; i < collidables.length; i++) {
-            for(let j = 1; j < collidables.length; j++) {
-                if(colliding(collidables[i], collidables[j])) console.log(collidables[0].x);
+            for(let j = 1; j < collidables.length && i != j; j++) {
+                if(colliding(collidables[i], collidables[j])) console.log(collidables[0].getX());
+                //console.log("tested " + i + " " + j);
             }
         }
     }
@@ -118,5 +134,4 @@ CollisionHandler.collidables.push(Player);
 CollisionHandler.collidables.push(Wall);
 
 window.setInterval(CollisionHandler.testForCollisions, 1);
-
-console.log(CollisionHandler.collidables);
+//CollisionHandler.testForCollisions();
