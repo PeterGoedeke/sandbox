@@ -50,16 +50,12 @@ CSS starts here---------------------------------------------------------------
 */
 
 .player {
-    width: 5px;
-    height: 25px;
     background-color: blue;
     border: solid black 1px;
     position: absolute;
 }
 
 .wall {
-    width: 25px;
-    height: 25px;
     background-color: red;
     border: solid black 1px;
     position: absolute;
