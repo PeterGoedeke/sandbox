@@ -4,8 +4,14 @@ var MasterCollisionManager = {
         this.collidables.push(collidable);
     },
     checkForCollision: function() {
-        console.log("checking for collisions");
-        this.collidables[0].collisionHandler;
+        console.log(this.collidables);
+        for(let i = 0; i < this.collidables.length; i++) {
+            for(let j = 1; j < this.collidables.length && i != j; j++) {
+                if(this.collidables[i].test == "original" && this.collidables[j].test == "other") {
+                    this.collidables[i].collisionManager.respond(this.collidables[j]);
+                }
+            }
+        }
     }
 }
 
@@ -14,7 +20,7 @@ var CollisionManagerProto = {
        MasterCollisionManager.registerCollidable(this);
     },
     respond: function(other) {
-        console.log();
+        console.log(other.test);
     }
 }
 
@@ -40,5 +46,4 @@ var spaceShip = createSpaceShip();
 var otherSpaceShip = createSpaceShip();
 otherSpaceShip.test = "other";
 
-spaceShip.collisionManager.respond();
-otherSpaceShip.collisionManager.respond();
+MasterCollisionManager.checkForCollision();

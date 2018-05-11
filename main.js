@@ -104,7 +104,7 @@ function ParticleHandler(host) {
     this.init = function() {
         this.particle = document.createElement("IMG");
         this.particle.src = this.particleImage;
-        console.log(this.host);
+        //console.log(this.host);
         this.particle.style.top = this.offset;
         this.particle.style.zIndex = -1;
         this.host.element.appendChild(this.particle);
@@ -161,7 +161,7 @@ const CollisionHandler = (function() {
     function testForCollisions() {
         for(let i = 0; i < collidables.length; i++) {
             for(let j = 1; j < collidables.length && i != j; j++) {
-                if(colliding(collidables[i], collidables[j])) console.log(collidables[0].getX());
+                //if(colliding(collidables[i], collidables[j])) //console.log(collidables[0].getX());
                 //console.log("tested " + i + " " + j);
             }
         }
