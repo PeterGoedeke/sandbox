@@ -50,9 +50,12 @@ CSS starts here---------------------------------------------------------------
 */
 
 .player {
-    background-color: blue;
-    border: solid black 1px;
     position: absolute;
+}
+
+.player img {
+    height: 100%;
+    width: 100%;
 }
 
 .wall {
