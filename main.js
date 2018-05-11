@@ -105,6 +105,8 @@ function ParticleHandler(host) {
         this.particle = document.createElement("IMG");
         this.particle.src = this.particleImage;
         console.log(this.host);
+        this.particle.style.top = this.offset;
+        this.particle.style.zIndex = -1;
         this.host.element.appendChild(this.particle);
     }
     this.update = function() {
