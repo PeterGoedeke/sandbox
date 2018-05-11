@@ -6,12 +6,12 @@ const Player = (function() {
     let maxSpeed = 2.5;
     let angle = 0;
     let element = document.querySelector(".player");
-    let image = 
 
     document.addEventListener('keydown', keyDown);
     document.addEventListener('keyup', keyUp);
 
     let [leftArrow, rightArrow, upArrow] = [false, false, false];
+    let thrusting = false;
 
     function keyDown() {
         switch (event.which) {
@@ -62,16 +62,24 @@ const Player = (function() {
     function getY() {
         return y;
     }
+    function getThrusting() {
+        return thrusting;
+    }
 
     var toRadians = (term) => term * (Math.PI / 180);
 
     function init() {
         element.style.width = width + "px";
         element.style.height = height + "px";
+        particleHandler = new ParticleHandler(this);
+        particleHandler.init();
     }
 
     function update() {
         move();
+        if(upArrow) thrusting = true;
+        else thrusting = false;
+        particleHandler.update();
         x += xVelocity;
         y += yVelocity;
         element.style.transform = `rotate(${angle}deg`;
@@ -83,9 +91,27 @@ const Player = (function() {
     return {
         update: update,
         init: init,
-        getX: getX, getY: getY, width: width, height: height
+        getX: getX, getY: getY, width: width, height: height,
+        element: element, thrusting: getThrusting
     }
 })();
+
+function ParticleHandler(host) {
+    this.host = host;
+    this.particleImage = "exhaust.png";
+    this.offset = "30px";
+    this.particle;
+    this.init = function() {
+        this.particle = document.createElement("IMG");
+        this.particle.src = this.particleImage;
+        console.log(this.host);
+        this.host.element.appendChild(this.particle);
+    }
+    this.update = function() {
+        if(Player.thrusting()) this.particle.style.display = "block";
+        else this.particle.style.display = "none";
+    }    
+}
 
 const Wall = (function() {
     let [x, y] = [245, 50];
