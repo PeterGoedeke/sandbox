@@ -1,30 +1,54 @@
 const Player = (function() {
     let [x, y] = [250, 500];
-    var [width, height] = [5, 25];
-    var [xVelocity, yVelocity] = [0, 0];
-    var acceleration = 1;
-    var maxSpeed = 2;
-    var angle = 0;
-    var element = document.querySelector(".player");
-    document.addEventListener('keydown', move);
+    let [width, height] = [15, 35];
+    let [xVelocity, yVelocity] = [0, 0];
+    let acceleration = 0.05;
+    let maxSpeed = 2.5;
+    let angle = 0;
+    let element = document.querySelector(".player");
+    let image = 
+
+    document.addEventListener('keydown', keyDown);
+    document.addEventListener('keyup', keyUp);
+
+    let [leftArrow, rightArrow, upArrow] = [false, false, false];
+
+    function keyDown() {
+        switch (event.which) {
+            case 37:
+            leftArrow = true;
+            break;
+            case 38:
+            upArrow = true;
+            break;
+            case 39:
+            rightArrow = true;
+        }
+    }
+    function keyUp() {
+        switch (event.which) {
+            case 37:
+            leftArrow = false;
+            break;
+            case 38:
+            upArrow = false;
+            break;
+            case 39:
+            rightArrow = false;
+        }
+    }
 
     function move(event) {
         var direction;
-        switch (event.which) {
-            case 37:
+        if(leftArrow) {
             angle -= 5;
-            break;
-            case 38:
+        }
+        if(rightArrow) {
+            angle += 5;
+        }
+        if(upArrow) {
             yVelocity -= acceleration * Math.cos(toRadians(angle));
             xVelocity += acceleration * Math.sin(toRadians(angle));
-            break;
-            case 39:
-            angle += 5;
-            break;
-            case 40:
-            //yVelocity += Math.cos(toRadians(angle));
-            //xVelocity += Math.sin(toRadians(angle));
-            break;
         }
         if(xVelocity >= maxSpeed) xVelocity = maxSpeed;
         if(xVelocity <= -maxSpeed) xVelocity = -maxSpeed;
@@ -47,6 +71,7 @@ const Player = (function() {
     }
 
     function update() {
+        move();
         x += xVelocity;
         y += yVelocity;
         element.style.transform = `rotate(${angle}deg`;
