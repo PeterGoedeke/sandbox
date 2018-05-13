@@ -42,3 +42,7 @@ function initDisplayElement(gameObject) {
     gameObject.element.appendChild(displayImage);
     document.querySelector(".game").appendChild(gameObject.element);
 }
+
+function angleBetweenObjects(entity, other) {
+    return Math.atan(entity.y - other.y, entity.x - other.x) * 180 / Math.PI;
+}
