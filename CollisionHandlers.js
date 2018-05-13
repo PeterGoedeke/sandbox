@@ -4,14 +4,14 @@ var MasterCollisionHandler = {
     registerCollidable: function registerCollidable(collidable) {
         this.collidables.push(collidable);
     },
-    checkForCollision: function checkForCollision() {
+    checkForCollisions: function checkForCollisions() {
         for(let i = 0; i < this.collidables.length; i++) {
             for(let j = 1; j < this.collidables.length && i != j; j++) {
-                if(this.collidables[i].test == "original" && this.collidables[j].test == "other") {
+                if(this.collidables[i].armour == 5 && this.collidables[j].armour == 5) {
                     const iCollidable = this.collidables[i];
                     const jCollidable = this.collidables[j];
-                    iCollidable.collisionHandler.respond(jCollidable, jCollidable.collisionHandler.callback);
-                    jCollidable.collisionHandler.respond(iCollidable, iCollidable.collisionHandler.callback);
+                    iCollidable.collisionHandler.respond(jCollidable);
+                    jCollidable.collisionHandler.respond(iCollidable);
                 }
             }
         }
@@ -30,13 +30,14 @@ var CollisionHandlerProto = {
     }
 }
 
-var createCollisionHandlerType = function(respond, callback) {
+var createCollisionHandlerType = function(respond, callBack) {
     return {
-            addTo: function addTo(superEntity) {
+        addTo: function addTo(superEntity) {
             var collisionHandler = Object.create(CollisionHandlerProto);
             collisionHandler.respond = respond;
-            collisionHandler.callback = callback;
-            for(const key in collisionHandler) collisionHandler[key] = collisionHandler[key].bind(superEntity);
+            collisionHandler.callBack = callBack;
+            collisionHandler.init = collisionHandler.init.bind(superEntity);
+            collisionHandler.respond = collisionHandler.respond.bind(superEntity);
             superEntity.collisionHandler = collisionHandler;
         } 
     }
@@ -45,5 +46,11 @@ var createCollisionHandlerType = function(respond, callback) {
 //Collision Handlers
 
 var testCollisionHandler = createCollisionHandlerType(
-    (other, callback) => {console.log(`I, ${this}, bumped into ${other}. ${other} is of type ${other.type}`); callback();}, 
-    () => console.log(`This is a callback which has been passed to me by ${other}, but is being excuted on me, ${this}.`));
+    function(other) {
+        console.log(`I, ${this.weapons}, bumped into ${other.weapons}. ${other.weapons} is of type ${typeof other}`);
+        console.log(this.weapons);
+        other.collisionHandler.callBack.call(this, other);
+    }, 
+    function(other) {
+        console.log(`This is a callBack which has been passed to me by ${other.weapons}, but is being excuted on me, ${this.weapons}.`);
+    });

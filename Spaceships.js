@@ -1,9 +1,9 @@
 var SpaceShipProto = {
     init: function init() {
-        //Game.registerGameObject(this);
+        Game.registerGameObject(this);
     },
     update: function update() {
-
+        console.log("ayy");
     },
     render: function render() {
 
@@ -20,14 +20,14 @@ var createSpaceShipType = function(x, y, width, height, image, mass, baseArmour,
         testCollisionHandler.addTo(SpaceShip);
         SpaceShip.collisionHandler.init();
         SpaceShip.init();
-        //Game.registerGameObject(SpaceShip);
         return SpaceShip;
     }
 }
 
 var createTestSpaceShip = createSpaceShipType(0, 0, 25, 25, "player.png", 50, "placeholder", 0.02, 5, 2);
 
-var mySpaceShip = createTestSpaceShip({armour: 5, weapons: 5, shield: 5, inventory: 5, devices: 5}, testCollisionHandler);
+var mySpaceShip = createTestSpaceShip({armour: 5, weapons: "myspaceship", shield: 5, inventory: 5, devices: 5}, testCollisionHandler);
+var myOtherSpaceShip = createTestSpaceShip({armour: 5, weapons: "myotherspaceship", shield: 5, inventory: 5, devices: 5}, testCollisionHandler);
 
 var createCollisionHandlerType = function(respond, callback) {
     return function(superEntity) {
