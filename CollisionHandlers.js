@@ -7,14 +7,19 @@ var masterCollisionHandler = {
     checkForCollisions: function checkForCollisions() {
         for(let i = 0; i < this.collidables.length; i++) {
             for(let j = 1; j < this.collidables.length && i != j; j++) {
-                if(this.collidables[i].armour == 5 && this.collidables[j].armour == 5) {
-                    const iCollidable = this.collidables[i];
-                    const jCollidable = this.collidables[j];
-                    iCollidable.collisionHandler.respond(jCollidable);
-                    jCollidable.collisionHandler.respond(iCollidable);
-                }
+                const iCollidable = this.collidables[i];
+                const jCollidable = this.collidables[j];
+                if(!this.areColliding(iCollidable, jCollidable)) continue;
+                iCollidable.collisionHandler.respond(jCollidable);
+                jCollidable.collisionHandler.respond(iCollidable);
             }
         }
+    },
+    areColliding: function areColliding(entity, other) {
+        var collidingX = (entity.x < other.x + other.width && entity.x + entity.width > other.x);
+        var collidingY = (entity.y < other.y + other.width && entity.y + entity.width > other.y);
+        console.log(`${entity.x}, ${other.x}, ${entity.width}, ${other.width}`);
+        return (collidingX && collidingY);
     }
 }
 
@@ -47,7 +52,7 @@ var createCollisionHandlerType = function(respond, callBack) {
 
 var testCollisionHandler = createCollisionHandlerType(
     function(other) {
-        console.log(`I, ${this.weapons}, bumped into ${other.weapons}. ${other.weapons} is of type ${typeof other}`);
+        console.log(`I, ${this.weapons}, bumped into ${other.weapons}. ${other.weapons} is of type ${typeof other}. I am at (${this.x}, ${this.y}), and I am (${this.width}, ${this.height}) big. My friend is at (${other.x}, ${other.y}) and is (${other.width}, ${other.height}) big.`);
         console.log(this.weapons);
         other.collisionHandler.callBack.call(this, other);
     }, 

@@ -1,3 +1,4 @@
+/*
 var spaceShipProto = {
     element: document.createElement("div"),
     init: function init() {
@@ -47,3 +48,4 @@ var createCollisionHandlerType = function(respond, callback) {
         superEntity.collisionHandler = collisionHandler;
     } 
 }
+*/
