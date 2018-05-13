@@ -1,6 +1,6 @@
 var SpaceShipProto = {
     init: function init() {
-        Game.registerGameObject(this);
+        //Game.registerGameObject(this);
     },
     update: function update() {
 
@@ -20,6 +20,7 @@ var createSpaceShipType = function(x, y, width, height, image, mass, baseArmour,
         testCollisionHandler.addTo(SpaceShip);
         SpaceShip.collisionHandler.init();
         SpaceShip.init();
+        //Game.registerGameObject(SpaceShip);
         return SpaceShip;
     }
 }

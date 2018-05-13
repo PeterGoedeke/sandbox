@@ -1,15 +1,18 @@
 //Game 
 var Game = {
     gameObjects: [],
-    registerGameObject: function(gameObject) {
+    registerGameObject: function registerGameObject(gameObject) {
         this.gameObjects.push(gameObject);
     },
-    updateGameObjects: function() {
-        for(let gameObject of this.gameObjects) gameObject.update();
-        console.log("ayy");
+    updateGameObjects: function updateGameObjects() {
+        console.log(this.gameObjects);
+        console.log(MasterCollisionHandler.collidables);
+        //for(let gameObject of this.gameObjects) gameObject.update();
+        //for(let i = 0; i < this.gameObjects)
     }
 }
-var gameLoop = setInterval(Game.updateGameObjects(), 1);
+
+var gameLoop = setInterval(Game.updateGameObjects, 1000);
 
 //ExhaustHandlers
 var ExhaustHandlerProto = {
