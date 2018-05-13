@@ -12,7 +12,7 @@ var Game = {
     }
 }
 
-var gameLoop = setInterval(Game.updateGameObjects, 1000);
+var gameLoop = setInterval(Game.updateGameObjects.bind(Game), 1000);
 
 //ExhaustHandlers
 var ExhaustHandlerProto = {
