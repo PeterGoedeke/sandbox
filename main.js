@@ -43,6 +43,6 @@ function initDisplayElement(gameObject) {
     document.querySelector(".game").appendChild(gameObject.element);
 }
 
-function angleBetweenObjects(entity, other) {
-    return Math.atan(entity.y - other.y, entity.x - other.x) * 180 / Math.PI;
+function getAngleBetween(entity, other) {
+    return Math.atan2(other.x - entity.x, -(other.y - entity.y)) * 180 / Math.PI;
 }
