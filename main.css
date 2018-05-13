@@ -49,11 +49,11 @@ CSS starts here---------------------------------------------------------------
 ------------------------------------------------------------------------------
 */
 
-.player {
+.gameObject {
     position: absolute;
 }
 
-.player img {
+.shipDisplayGraphic {
     height: 100%;
     width: 100%;
     position: absolute;
