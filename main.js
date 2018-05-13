@@ -15,12 +15,30 @@ var game = {
 
 var gameLoop = setInterval(game.updateGameState.bind(game), 1000);
 
-//ExhaustHandlers
-var exhaustHandlerProto = {
-    update: function() {
-
-    },
-    render: function() {
-
+function mixin(target, ...objects) {
+    for(const object of objects) {
+        if(typeof object === 'object') {
+            for(const key of Object.keys(object)) {
+                if(typeof object[key] === 'object') {
+                    target[key] = Array.isArray(object[key]) ? [] : {};
+                    mixin(target[key], object[key]);
+                } else {
+                    Object.assign(target, object);
+                }
+            }
+        }
     }
+    return target;
+}
+
+function initDisplayElement(gameObject) {
+    gameObject.element = document.createElement("div");
+    gameObject.element.classList.add("gameObject");
+    gameObject.element.style.width = gameObject.width + "px";
+    gameObject.element.style.height = gameObject.height + "px";
+    var displayImage = document.createElement("img");
+    displayImage.src = gameObject.image;
+    displayImage.classList.add("shipDisplayGraphic");
+    gameObject.element.appendChild(displayImage);
+    document.querySelector(".game").appendChild(gameObject.element);
 }

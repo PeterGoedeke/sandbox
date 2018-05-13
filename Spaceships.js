@@ -1,16 +1,7 @@
 var spaceShipProto = {
-    element: undefined,
     init: function init() {
-        this.element = document.createElement("div");
         game.registerGameObject(this);
-        this.element.classList.add("gameObject");
-        this.element.style.width = this.width + "px";
-        this.element.style.height = this.height + "px";
-        var displayImage = document.createElement("img");
-        displayImage.src = this.image;
-        displayImage.classList.add("shipDisplayGraphic");
-        this.element.appendChild(displayImage);
-        document.querySelector(".game").appendChild(this.element);
+        initDisplayElement(this);
         this.element.style.left = this.x + "px";
         this.element.style.top = this.y + "px";
     },
@@ -27,8 +18,8 @@ var createSpaceShipType = function(width, height, image, mass, baseArmour, baseA
     //Add exhaust handler
     return function(spaceShipSpecs, collisionHandler) {
         var spaceShip = Object.create(spaceShipProto);
-        Object.assign(spaceShip, {width, height, image, mass, baseArmour, baseAcc, baseManu, baseMaxSpeed, collisionHandler});
-        Object.assign(spaceShip, spaceShipSpecs);
+        mixin(spaceShip, {width, height, image, mass, baseArmour, baseAcc, baseManu, baseMaxSpeed, collisionHandler});
+        mixin(spaceShip, spaceShipSpecs);
         collisionHandler.addTo(spaceShip);
         spaceShip.collisionHandler.init();
         spaceShip.init();

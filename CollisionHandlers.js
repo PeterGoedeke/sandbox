@@ -18,7 +18,6 @@ var masterCollisionHandler = {
     areColliding: function areColliding(entity, other) {
         var collidingX = (entity.x < other.x + other.width && entity.x + entity.width > other.x);
         var collidingY = (entity.y < other.y + other.width && entity.y + entity.width > other.y);
-        console.log(`${entity.x}, ${other.x}, ${entity.width}, ${other.width}`);
         return (collidingX && collidingY);
     }
 }
@@ -49,7 +48,6 @@ var createCollisionHandlerType = function(respond, callBack) {
 }
 
 //Collision Handlers
-
 var testCollisionHandler = createCollisionHandlerType(
     function(other) {
         console.log(`I, ${this.weapons}, bumped into ${other.weapons}. ${other.weapons} is of type ${typeof other}. I am at (${this.x}, ${this.y}), and I am (${this.width}, ${this.height}) big. My friend is at (${other.x}, ${other.y}) and is (${other.width}, ${other.height}) big.`);
