@@ -1,11 +1,11 @@
 //Game 
-var Game = {
+var game = {
     gameObjects: [],
     registerGameObject: function registerGameObject(gameObject) {
         this.gameObjects.push(gameObject);
     },
     updateGameState: function updateGameState() {
-        MasterCollisionHandler.checkForCollisions();
+        masterCollisionHandler.checkForCollisions();
         this.updateGameObjects();
     },
     updateGameObjects: function updateGameObjects() {
@@ -13,10 +13,10 @@ var Game = {
     }
 }
 
-var gameLoop = setInterval(Game.updateGameState.bind(Game), 1000);
+var gameLoop = setInterval(game.updateGameState.bind(game), 1000);
 
 //ExhaustHandlers
-var ExhaustHandlerProto = {
+var exhaustHandlerProto = {
     update: function() {
 
     },

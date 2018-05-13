@@ -1,5 +1,5 @@
 //Collision Handler Resources
-var MasterCollisionHandler = {
+var masterCollisionHandler = {
     collidables: [],
     registerCollidable: function registerCollidable(collidable) {
         this.collidables.push(collidable);
@@ -18,9 +18,9 @@ var MasterCollisionHandler = {
     }
 }
 
-var CollisionHandlerProto = {
+var collisionHandlerProto = {
     init: function init() {
-       MasterCollisionHandler.registerCollidable(this);
+       masterCollisionHandler.registerCollidable(this);
     },
     respond: function respond(other) {
 
@@ -33,7 +33,7 @@ var CollisionHandlerProto = {
 var createCollisionHandlerType = function(respond, callBack) {
     return {
         addTo: function addTo(superEntity) {
-            var collisionHandler = Object.create(CollisionHandlerProto);
+            var collisionHandler = Object.create(collisionHandlerProto);
             collisionHandler.respond = respond;
             collisionHandler.callBack = callBack;
             collisionHandler.init = collisionHandler.init.bind(superEntity);
