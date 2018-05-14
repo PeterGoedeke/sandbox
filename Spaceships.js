@@ -1,6 +1,6 @@
 var spaceShipProto = {
-    init: function init() {
-        game.registerGameObject(this);
+    init: function init(register) {
+        if(register) game.registerGameObject(this);
         initDisplayElement(this);
         this.element.style.left = this.x + "px";
         this.element.style.top = this.y + "px";
@@ -16,13 +16,13 @@ var spaceShipProto = {
 //Add particle handler
 var createSpaceShipType = function(width, height, image, mass, baseArmour, baseAcc, baseManu, baseMaxSpeed) {
     //Add exhaust handler
-    return function(spaceShipSpecs, collisionHandler) {
+    return function(spaceShipSpecs, collisionHandler, register = true) {
         var spaceShip = Object.create(spaceShipProto);
         mixin(spaceShip, {width, height, image, mass, baseArmour, baseAcc, baseManu, baseMaxSpeed, collisionHandler});
         mixin(spaceShip, spaceShipSpecs);
         collisionHandler.addTo(spaceShip);
         spaceShip.collisionHandler.init();
-        spaceShip.init();
+        spaceShip.init(register);
         return spaceShip;
     }
 }

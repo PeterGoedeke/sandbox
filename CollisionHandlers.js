@@ -16,6 +16,7 @@ var masterCollisionHandler = {
         }
     },
     areColliding: function areColliding(entity, other) {
+        
         var collidingX = (entity.x < other.x + other.width && entity.x + entity.width > other.x);
         var collidingY = (entity.y < other.y + other.width && entity.y + entity.width > other.y);
         return (collidingX && collidingY);

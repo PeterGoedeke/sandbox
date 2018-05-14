@@ -4,12 +4,10 @@ var player = {
     init: function init() {
         document.addEventListener("keydown", this.keyDown);
         document.addEventListener("keyup", this.keyUp);
-        var playerSpecs = createSpaceShipType(30, 70, "exhaust.png", 50, "placeholder", 0.005, 0, 1)({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler);
+        var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.005, 0, 1)({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler, false);
         Object.assign(this, playerSpecs);
         this.angle = 0;
         game.registerGameObject(this);
-        this.element.style.left = this.x + "px";
-        this.element.style.top = this.y + "px";
     },
     //Swap player for this in the event listeners
     update: function update() {
