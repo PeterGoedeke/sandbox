@@ -1,9 +1,11 @@
 var player = {
+    thrusting: false,
+    xVelocity: 0, yVelocity: 0,
     init: function init() {
         document.addEventListener("keydown", this.keyDown);
         document.addEventListener("keyup", this.keyUp);
         document.addEventListener('mousemove', this.trackMouse);
-        var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.02, 5, 2)
+        var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.005, 2.5, 1)
             ({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler);
         mixin(this, playerSpecs);
         this.angle = 0;
@@ -12,20 +14,32 @@ var player = {
         this.element.style.left = this.x + "px";
         this.element.style.top = this.y + "px";
     },
+    //Swap player for this in the event listeners
     update: function update() {
-        
+        if(this.thrusting) {
+            this.yVelocity -= this.baseAcc * Math.cos(toRadians(this.angle));
+            this.xVelocity += this.baseAcc * Math.sin(toRadians(this.angle));
+        }
+        if(this.xVelocity >= this.baseMaxSpeed) this.xVelocity = this.baseMaxSpeed;
+        if(this.xVelocity <= -this.baseMaxSpeed) this.xVelocity = -this.baseMaxSpeed;
+        if(this.yVelocity >= this.baseMaxSpeed) this.yVelocity = this.baseMaxSpeed;
+        if(this.yVelocity <= -this.baseMaxSpeed) this.yVelocity = -this.baseMaxSpeed;
+        this.x += this.xVelocity;
+        this.y += this.yVelocity;
     },
     render: function render() {
         this.element.style.transform = `rotate(${this.angle}deg`;
+        this.element.style.top = this.y + "px";
+        this.element.style.left = this.x  + "px";
     },
     keyDown: function keyDown() {
         if(event.which == 38) {
-            this.thrusting = true;
+            player.thrusting = true;
         } 
     },
     keyUp: function keyUp() {
         if(event.which == 38) {
-            this.thrusting = false;
+            player.thrusting = false;
         }
     },
     trackMouse: function trackMouse(event) {

@@ -2,7 +2,7 @@
 var game = {
     gameObjects: [],
     init: function init() {
-        this.gameLoop = setInterval(this.updateGameState.bind(this), 1000);
+        this.gameLoop = setInterval(this.updateGameState.bind(this), 1);
         requestAnimationFrame(this.renderGameObjects.bind(this));
     },
     registerGameObject: function registerGameObject(gameObject) {
@@ -56,3 +56,5 @@ function initDisplayElement(gameObject) {
 function getAngleBetween(entity, other) {
     return Math.atan2(other.x - entity.x, -(other.y - entity.y)) * 180 / Math.PI;
 }
+
+var toRadians = (term) => term * (Math.PI / 180);
