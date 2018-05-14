@@ -62,4 +62,3 @@ var instanceOfMySpaceShipClassSpecs2 = {
 }
 var instanceOfMySpaceShipClass = mySpaceShipClass(instanceOfMySpaceShipClassSpecs);
 var instanceOfMySpaceShipClass2 = mySpaceShipClass(instanceOfMySpaceShipClassSpecs2);
-//instanceOfMySpaceShipClass.init();

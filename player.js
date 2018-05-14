@@ -46,6 +46,7 @@ var player = {
         this.collisionHandler.init();
         initDisplayElement(this);
         game.registerGameObject(this);
+        this.exhaustHandler = createExhaustHandler(this, 0, this.height * 8 / 10, this.width, this.height, "exhaust.png");
     },
     //Swap player for this in the event listeners
     update: function update() {

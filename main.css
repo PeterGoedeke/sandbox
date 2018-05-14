@@ -52,6 +52,9 @@ CSS starts here---------------------------------------------------------------
 .gameObject {
     position: absolute;
 }
+.exhaust {
+    position: absolute;
+}
 
 .shipDisplayGraphic {
     height: 100%;
