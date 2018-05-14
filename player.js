@@ -3,7 +3,6 @@ var player = {
         document.addEventListener("keydown", this.keyDown);
         document.addEventListener("keyup", this.keyUp);
         document.addEventListener('mousemove', this.trackMouse);
-
         var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.02, 5, 2)
             ({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler);
         mixin(this, playerSpecs);
@@ -32,11 +31,8 @@ var player = {
     trackMouse: function trackMouse(event) {
         var playerX = player.x + player.width / 2;
         var playerY = player.y + player.height / 2;
-        var angleToPoint = getAngleBetween({x: playerX, y: playerY}, {x: event.pageX, y: event.pageY});
-        player.angle = player.angle % 360;
-        if(angleToPoint > player.angle) player.angle += 5;
-        else if(angleToPoint < player.angle) player.angle -= 5;
-        console.log(angleToPoint);
+        var angleToMouse = getAngleBetween({x: playerX, y: playerY}, {x: event.pageX, y: event.pageY});
+        player.angle = angleToMouse;
         player.render();
     }
 }
