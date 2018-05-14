@@ -4,13 +4,10 @@ var player = {
     init: function init() {
         document.addEventListener("keydown", this.keyDown);
         document.addEventListener("keyup", this.keyUp);
-        document.addEventListener('mousemove', this.trackMouse);
-        var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.005, 0, 1)
-            ({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler);
-        mixin(this, playerSpecs);
+        var playerSpecs = createSpaceShipType(30, 70, "exhaust.png", 50, "placeholder", 0.005, 0, 1)({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler);
+        Object.assign(this, playerSpecs);
         this.angle = 0;
         game.registerGameObject(this);
-        initDisplayElement(this);
         this.element.style.left = this.x + "px";
         this.element.style.top = this.y + "px";
     },
@@ -44,10 +41,6 @@ var player = {
         if(event.which == 38) {
             player.thrusting = false;
         }
-    },
-    trackMouse: function trackMouse(event) {
-        mouseX = event.pageX;
-        mouseY = event.pageY;
     }
 }
 var playerCollisionHandler = createCollisionHandlerType(
