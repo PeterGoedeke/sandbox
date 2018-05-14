@@ -13,8 +13,10 @@ var game = {
         this.updateGameObjects();
     },
     updateGameObjects: function updateGameObjects() {
-        for(let gameObject of this.gameObjects)
+        for(let gameObject of this.gameObjects) {
+            //onsole.log(`(${Math.floor(gameObject.x)}, ${Math.floor(gameObject.y)}), dimensions (${Math.floor(gameObject.width)}, ${Math.floor(gameObject.height)})`);
             gameObject.update();
+        }
     },
     renderGameObjects: function renderGameObjects() {
         for(let gameObject of this.gameObjects) {

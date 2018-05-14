@@ -1,6 +1,8 @@
 var spaceShipProto = {
-    init: function init(register) {
-        if(register) game.registerGameObject(this);
+    init: function init(collisionHandler) {
+        collisionHandler.addTo(this);
+        this.collisionHandler.init();
+        game.registerGameObject(this);
         initDisplayElement(this);
         this.element.style.left = this.x + "px";
         this.element.style.top = this.y + "px";
@@ -13,21 +15,51 @@ var spaceShipProto = {
     }
 }
 
-//Add particle handler
-var createSpaceShipType = function(width, height, image, mass, baseArmour, baseAcc, baseManu, baseMaxSpeed) {
-    //Add exhaust handler
-    return function(spaceShipSpecs, collisionHandler, register = true) {
+//Class, width, height, image, mass, baseArmour, baseAcc, baseManu, baseMaxSpeed
+var createSpaceShipClass = function(spaceShipClassSpecs) {
+    //x, y, armour, weapons, shield, inventory, devices, collisionHandler
+    return function(spaceShipSpecs, init = true) {
         var spaceShip = Object.create(spaceShipProto);
-        mixin(spaceShip, {width, height, image, mass, baseArmour, baseAcc, baseManu, baseMaxSpeed, collisionHandler});
+        mixin(spaceShip, spaceShipClassSpecs);
         mixin(spaceShip, spaceShipSpecs);
-        collisionHandler.addTo(spaceShip);
-        spaceShip.collisionHandler.init();
-        spaceShip.init(register);
+        if(init) spaceShip.init(spaceShip.collisionHandler);
         return spaceShip;
     }
 }
 
-var createTestSpaceShip = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.02, 5, 2);
+var testSpaceShipClassSpecs = {
+    class: "Test Space Ship",
+    width: 30,
+    height: 70,
+    image: "player.png",
+    mass: "placeholder",
+    baseArmour: "placeholder",
+    baseAcc: "placeholder",
+    baseManu: "placeholder",
+    baseMaxSpeed: "placeholder"
+}
+var mySpaceShipClass = createSpaceShipClass(testSpaceShipClassSpecs);
 
-var mySpaceShip = createTestSpaceShip({x: 0, y: 0, armour: 5, weapons: "myspaceship", shield: 5, inventory: 5, devices: 5}, testCollisionHandler);
-var myOtherSpaceShip = createTestSpaceShip({x: 40, y: 10, armour: 5, weapons: "myotherspaceship", shield: 5, inventory: 5, devices: 5}, testCollisionHandler);
+var instanceOfMySpaceShipClassSpecs = {
+    x: 0,
+    y: 0,
+    armour: "placeholder",
+    weapons: "placeholder",
+    shield: "placeholder",
+    inventory: "placeholder",
+    devices: "placeholder",
+    collisionHandler: testCollisionHandler
+}
+var instanceOfMySpaceShipClassSpecs2 = {
+    x: 100,
+    y: 100,
+    armour: "placeholder",
+    weapons: "placeholder",
+    shield: "placeholder",
+    inventory: "placeholder",
+    devices: "placeholder",
+    collisionHandler: testCollisionHandler
+}
+var instanceOfMySpaceShipClass = mySpaceShipClass(instanceOfMySpaceShipClassSpecs);
+var instanceOfMySpaceShipClass2 = mySpaceShipClass(instanceOfMySpaceShipClassSpecs2);
+//instanceOfMySpaceShipClass.init();

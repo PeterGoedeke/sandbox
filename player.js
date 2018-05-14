@@ -1,23 +1,62 @@
+var playerCollisionHandler = createCollisionHandlerType(
+    function(other) {
+        console.log(`I, ${this.class}, bumped into ${other.class}. ${other.class} is of type ${typeof other}. I am at (${this.x}, ${this.y}), and I am (${this.width}, ${this.height}) big. My friend is at (${other.x}, ${other.y}) and is (${other.width}, ${other.height}) big.`);
+        console.log(this.class);
+        other.collisionHandler.callBack.call(this, other);
+    }, 
+    function(other) {
+        console.log(`This is a callBack which has been passed to me by ${other.class}, but is being excuted on me, ${this.class}.`);
+    }
+);
+
+var playerClassSpecs = {
+    class: "Player",
+    width: 30,
+    height: 70,
+    image: "player.png",
+    mass: "placeholder",
+    baseArmour: "placeholder",
+    baseAcc: 0.02,
+    baseManu: "placeholder",
+    baseMaxSpeed: 2.5
+}
+var playerSpecs = {
+    x: 250,
+    y: 250,
+    armour: "placeholder",
+    weapons: "placeholder",
+    shield: "placeholder",
+    inventory: "placeholder",
+    devices: "placeholder",
+    collisionHandler: playerCollisionHandler
+}
+
 var player = {
     thrusting: false,
-    xVelocity: 0, yVelocity: 0,
+    xVelocity: 0, yVelocity: 0, angle: 0,
     init: function init() {
+        this.keyDown = this.keyDown.bind(this);
+        this.keyUp = this.keyUp.bind(this);
         document.addEventListener("keydown", this.keyDown);
         document.addEventListener("keyup", this.keyUp);
-        var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.005, 0, 1)({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler, false);
-        Object.assign(this, playerSpecs);
-        this.angle = 0;
+        var playerShip = createSpaceShipClass(playerClassSpecs)(playerSpecs, false);
+        console.log(playerSpecs.collisionHandler);
+        Object.assign(this, playerShip);
+        this.collisionHandler.addTo(this);
+        this.collisionHandler.init();
+        initDisplayElement(this);
         game.registerGameObject(this);
     },
     //Swap player for this in the event listeners
     update: function update() {
-        var playerX = player.x + player.width / 2;
-        var playerY = player.y + player.height / 2;
+        var playerX = this.x + this.width / 2;
+        var playerY = this.y + this.height / 2;
         player.angle = getAngleBetween({x: playerX, y: playerY}, {x: mouseX, y: mouseY});
         if(this.thrusting) {
             this.yVelocity -= this.baseAcc * Math.cos(toRadians(this.angle));
             this.xVelocity += this.baseAcc * Math.sin(toRadians(this.angle));
         }
+        //Use vectors to work this out better
         if(this.xVelocity >= this.baseMaxSpeed) this.xVelocity = this.baseMaxSpeed;
         if(this.xVelocity <= -this.baseMaxSpeed) this.xVelocity = -this.baseMaxSpeed;
         if(this.yVelocity >= this.baseMaxSpeed) this.yVelocity = this.baseMaxSpeed;
@@ -32,23 +71,13 @@ var player = {
     },
     keyDown: function keyDown() {
         if(event.which == 38) {
-            player.thrusting = true;
+            this.thrusting = true;
         } 
     },
     keyUp: function keyUp() {
         if(event.which == 38) {
-            player.thrusting = false;
+            this.thrusting = false;
         }
     }
 }
-var playerCollisionHandler = createCollisionHandlerType(
-    function(other) {
-        console.log(`I, ${this.weapons}, bumped into ${other.weapons}. ${other.weapons} is of type ${typeof other}. I am at (${this.x}, ${this.y}), and I am (${this.width}, ${this.height}) big. My friend is at (${other.x}, ${other.y}) and is (${other.width}, ${other.height}) big.`);
-        console.log(this.weapons);
-        other.collisionHandler.callBack.call(this, other);
-    }, 
-    function(other) {
-        console.log(`This is a callBack which has been passed to me by ${other.weapons}, but is being excuted on me, ${this.weapons}.`);
-    }
-);
 player.init();
