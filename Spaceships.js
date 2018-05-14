@@ -61,9 +61,4 @@ var instanceOfMySpaceShipClassSpecs2 = {
     collisionHandler: testCollisionHandler
 }
 var instanceOfMySpaceShipClass = mySpaceShipClass(instanceOfMySpaceShipClassSpecs);
-<<<<<<< HEAD:Spaceships.js
 var instanceOfMySpaceShipClass2 = mySpaceShipClass(instanceOfMySpaceShipClassSpecs2);
-=======
-var instanceOfMySpaceShipClass2 = mySpaceShipClass(instanceOfMySpaceShipClassSpecs2);
-//instanceOfMySpaceShipClass.init();
->>>>>>> d46bce2c14eaa2137107b80bfc8e3d8fbbe597b7:spaceships.js
