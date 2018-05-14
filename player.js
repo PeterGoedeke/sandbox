@@ -5,7 +5,7 @@ var player = {
         document.addEventListener("keydown", this.keyDown);
         document.addEventListener("keyup", this.keyUp);
         document.addEventListener('mousemove', this.trackMouse);
-        var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.005, 2.5, 1)
+        var playerSpecs = createSpaceShipType(30, 70, "player.png", 50, "placeholder", 0.005, 0, 1)
             ({x: 100, y: 100, armour: "placeholder", weapons: "placeholder", shield: "placeholder", inventory: "placeholder", devices: "placeholder"}, playerCollisionHandler);
         mixin(this, playerSpecs);
         this.angle = 0;
@@ -16,6 +16,9 @@ var player = {
     },
     //Swap player for this in the event listeners
     update: function update() {
+        var playerX = player.x + player.width / 2;
+        var playerY = player.y + player.height / 2;
+        player.angle = getAngleBetween({x: playerX, y: playerY}, {x: mouseX, y: mouseY});
         if(this.thrusting) {
             this.yVelocity -= this.baseAcc * Math.cos(toRadians(this.angle));
             this.xVelocity += this.baseAcc * Math.sin(toRadians(this.angle));
@@ -43,10 +46,8 @@ var player = {
         }
     },
     trackMouse: function trackMouse(event) {
-        var playerX = player.x + player.width / 2;
-        var playerY = player.y + player.height / 2;
-        var angleToMouse = getAngleBetween({x: playerX, y: playerY}, {x: event.pageX, y: event.pageY});
-        player.angle = angleToMouse;
+        mouseX = event.pageX;
+        mouseY = event.pageY;
     }
 }
 var playerCollisionHandler = createCollisionHandlerType(
@@ -60,103 +61,3 @@ var playerCollisionHandler = createCollisionHandlerType(
     }
 );
 player.init();
-
-/*
-const Player = (function() {
-    let [x, y] = [250, 500];
-    let [width, height] = [15, 35];
-    let [xVelocity, yVelocity] = [0, 0];
-    let acceleration = 0.05;
-    let maxSpeed = 2.5;
-    let angle = 0;
-    let element = document.querySelector(".player");
-
-    document.addEventListener('keydown', keyDown);
-    document.addEventListener('keyup', keyUp);
-
-    let [leftArrow, rightArrow, upArrow] = [false, false, false];
-    let thrusting = false;
-
-    function keyDown() {
-        switch (event.which) {
-            case 37:
-            leftArrow = true;
-            break;
-            case 38:
-            upArrow = true;
-            break;
-            case 39:
-            rightArrow = true;
-        }
-    }
-    function keyUp() {
-        switch (event.which) {
-            case 37:
-            leftArrow = false;
-            break;
-            case 38:
-            upArrow = false;
-            break;
-            case 39:
-            rightArrow = false;
-        }
-    }
-
-    function move(event) {
-        var direction;
-        if(leftArrow) {
-            angle -= 5;
-        }
-        if(rightArrow) {
-            angle += 5;
-        }
-        if(upArrow) {
-            yVelocity -= acceleration * Math.cos(toRadians(angle));
-            xVelocity += acceleration * Math.sin(toRadians(angle));
-        }
-        if(xVelocity >= maxSpeed) xVelocity = maxSpeed;
-        if(xVelocity <= -maxSpeed) xVelocity = -maxSpeed;
-        if(yVelocity >= maxSpeed) yVelocity = maxSpeed;
-        if(yVelocity <= -maxSpeed) yVelocity = -maxSpeed;
-    }
-
-    function getX() {
-        return x;
-    }
-    function getY() {
-        return y;
-    }
-    function getThrusting() {
-        return thrusting;
-    }
-
-    var toRadians = (term) => term * (Math.PI / 180);
-
-    function init() {
-        element.style.width = width + "px";
-        element.style.height = height + "px";
-        particleHandler = new ParticleHandler(this);
-        particleHandler.init();
-    }
-
-    function update() {
-        move();
-        if(upArrow) thrusting = true;
-        else thrusting = false;
-        particleHandler.update();
-        x += xVelocity;
-        y += yVelocity;
-        element.style.transform = `rotate(${angle}deg`;
-        element.style.top = y + "px";
-        element.style.left = x  + "px";
-        requestAnimationFrame(Player.update);
-    }
-
-    return {
-        update: update,
-        init: init,
-        getX: getX, getY: getY, width: width, height: height,
-        element: element, thrusting: getThrusting
-    }
-})();
-*/

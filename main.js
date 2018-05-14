@@ -58,3 +58,12 @@ function getAngleBetween(entity, other) {
 }
 
 var toRadians = (term) => term * (Math.PI / 180);
+
+var mouseX = 0;
+var mouseY = 0;
+
+document.addEventListener('mousemove', trackMouse);
+function trackMouse() {
+    mouseX = event.pageX;
+    mouseY = event.pageY;
+}
