@@ -1,6 +1,10 @@
 //Game 
 var game = {
     gameObjects: [],
+    init: function init() {
+        this.gameLoop = setInterval(this.updateGameState.bind(this), 1000);
+        requestAnimationFrame(this.renderGameObjects.bind(this));
+    },
     registerGameObject: function registerGameObject(gameObject) {
         this.gameObjects.push(gameObject);
     },
@@ -9,11 +13,17 @@ var game = {
         this.updateGameObjects();
     },
     updateGameObjects: function updateGameObjects() {
-        for(let gameObject of this.gameObjects) gameObject.update();
+        for(let gameObject of this.gameObjects)
+            gameObject.update();
+    },
+    renderGameObjects: function renderGameObjects() {
+        for(let gameObject of this.gameObjects) {
+            gameObject.render();
+        }
+        requestAnimationFrame(renderGameObjects.bind(this));
     }
 }
-
-var gameLoop = setInterval(game.updateGameState.bind(game), 1000);
+game.init();
 
 function mixin(target, ...objects) {
     for(const object of objects) {

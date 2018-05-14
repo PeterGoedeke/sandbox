@@ -33,7 +33,6 @@ var player = {
         var playerY = player.y + player.height / 2;
         var angleToMouse = getAngleBetween({x: playerX, y: playerY}, {x: event.pageX, y: event.pageY});
         player.angle = angleToMouse;
-        player.render();
     }
 }
 var playerCollisionHandler = createCollisionHandlerType(
