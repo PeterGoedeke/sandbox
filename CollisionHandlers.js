@@ -18,6 +18,7 @@ var masterCollisionHandler = {
     areColliding: function areColliding(entity, other) {
         var collidingX = (entity.x < other.x + other.width && entity.x + entity.width > other.x);
         var collidingY = (entity.y < other.y + other.width && entity.y + entity.width > other.y);
+        //console.log(`(${entity.x}, ${entity.y}) and (${other.x}, ${other.y}).`);
         return (collidingX && collidingY);
     }
 }
@@ -49,11 +50,12 @@ var createCollisionHandlerType = function(respond, callBack) {
 
 //Collision Handlers
 var testCollisionHandler = createCollisionHandlerType(
-    function(other) {
-        console.log(`I, ${this.weapons}, bumped into ${other.weapons}. ${other.weapons} is of type ${typeof other}. I am at (${this.x}, ${this.y}), and I am (${this.width}, ${this.height}) big. My friend is at (${other.x}, ${other.y}) and is (${other.width}, ${other.height}) big.`);
-        console.log(this.weapons);
+    function respond(other) {
+        console.log(`I, ${this.class}, bumped into ${other.class}. ${other.class} is of type ${typeof other}. I am at (${this.x}, ${this.y}), and I am (${this.width}, ${this.height}) big. My friend is at (${other.x}, ${other.y}) and is (${other.width}, ${other.height}) big.`);
+        console.log(this.class);
         other.collisionHandler.callBack.call(this, other);
     }, 
-    function(other) {
-        console.log(`This is a callBack which has been passed to me by ${other.weapons}, but is being excuted on me, ${this.weapons}.`);
+    function callBack(other) {
+        console.log(`This is a callBack which has been passed to me by ${other.class}, but is being excuted on me, ${this.class}.`);
+        this.x = 1000;
     });
