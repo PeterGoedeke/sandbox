@@ -32,6 +32,7 @@ var playerSpecs = {
 }
 
 var player = {
+    exhaustHandlers: [],
     thrusting: false,
     xVelocity: 0, yVelocity: 0, angle: 0,
     init: function init() {
@@ -40,13 +41,17 @@ var player = {
         document.addEventListener("keydown", this.keyDown);
         document.addEventListener("keyup", this.keyUp);
         var playerShip = createSpaceShipClass(playerClassSpecs)(playerSpecs, false);
-        console.log(playerSpecs.collisionHandler);
+        console.log(playerShip.exhaustHandlers);
         Object.assign(this, playerShip);
+        console.log(this.exhaustHandlers);
+        console.log(this.init);
         this.collisionHandler.addTo(this);
         this.collisionHandler.init();
         initDisplayElement(this);
         game.registerGameObject(this);
-        this.exhaustHandler = createExhaustHandler(this, 0, this.height * 8 / 10, this.width, this.height, "exhaust.png");
+        this.exhaustHandlers.push(createExhaustHandler(this, 0, this.height * 8 / 10, this.width / 3, this.height, "exhaust.png"));
+        this.exhaustHandlers.push(createExhaustHandler(this, this.width / 3, this.height * 8 / 10, this.width / 3, this.height, "exhaust.png"));
+        this.exhaustHandlers.push(createExhaustHandler(this, this.width / 3 * 2, this.height * 8 / 10, this.width / 3, this.height, "exhaust.png"));
     },
     //Swap player for this in the event listeners
     update: function update() {
@@ -69,6 +74,7 @@ var player = {
         this.element.style.transform = `rotate(${this.angle}deg`;
         this.element.style.top = this.y + "px";
         this.element.style.left = this.x  + "px";
+        for(let handler of this.exhaustHandlers) handler.render(this.thrusting);
     },
     keyDown: function keyDown() {
         if(event.which == 38) {

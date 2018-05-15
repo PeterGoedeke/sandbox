@@ -1,4 +1,5 @@
 var spaceShipProto = {
+    exhaustHandlers: [],
     init: function init(collisionHandler) {
         collisionHandler.addTo(this);
         this.collisionHandler.init();

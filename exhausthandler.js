@@ -11,8 +11,10 @@ var exhaustHandlerProto = {
         this.exhaustElement.style.zIndex = -1;
         superEntity.element.appendChild(this.exhaustElement);
     },
-    render: function render() {
-        
+    render: function render(thrusting) {
+        if(thrusting) this.exhaustElement.style.display = "block";
+        else this.exhaustElement.style.display = "none";
+        console.log(thrusting);
     }
 }
 
